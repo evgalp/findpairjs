@@ -12,7 +12,7 @@ var devModule = (function(){
 
 var appData = (function(){
   var htmlCode = {
-    cardHtml: '<div class="card"> <div class="flipper"> <div class="flipper__front"> <img src="img/cardbg.jpg" alt="alt"> </div><div class="flipper__back"> <img src="" alt="alt"> </div></div></div>'
+    cardHtml: '<div class="card"> <div class="flipper"> <div class="flipper__front"> <img src="img/cardbg.png" alt="alt"> </div><div class="flipper__back"> <img src="" alt="alt"> </div></div></div>'
   }
   return {htmlCode};
 })();
@@ -56,7 +56,7 @@ var controller = (function(){
     helpers.shuffle(existingImgArr);
 
     for (var i = 0; i < cards.length; i++) {
-      cards[i].src = `img/img${existingImgArr[i]}.jpg`;
+      cards[i].src = `img/img${existingImgArr[i]}.png`;
     }
 
   }
@@ -104,19 +104,19 @@ var uiModule = (function(){
     var cardsToInit;
     console.log(field_select.value);
     if (field_select.value == 6) {
-      // cardsToInit = 6 * 6 / 2;
-      cardsToInit =2;
+      cardsToInit = 6 * 6 / 2;
+      // cardsToInit =2;
     } else if (field_select.value == 8) {
-      // cardsToInit = 8 * 8 / 2;
-      cardsToInit =4;
+      cardsToInit = 8 * 8 / 2;
+      // cardsToInit =4;
 
     } else if (field_select.value == 10) {
-      // cardsToInit = 10 * 10 / 2;
-      cardsToInit =6;
+      cardsToInit = 10 * 10 / 2;
+      // cardsToInit =6;
 
     } else if (field_select.value == 12) {
-      // cardsToInit = 12 * 12 / 2;
-      cardsToInit =8;
+      cardsToInit = 12 * 12 / 2;
+      // cardsToInit =8;
 
     }
 
