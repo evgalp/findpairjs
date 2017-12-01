@@ -1,5 +1,11 @@
-var model = (function(){
+var helpers = (function(){
+  var getRandomInt = function (min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
 
+  return {getRandomInt};
 })();
 
 
@@ -22,17 +28,23 @@ var controller = (function(){
     });
   }
 
-  return {flipAll}
+  var initCards = function(){
+    var cards = document.querySelectorAll('.cardboard .card .flipper .flipper__back img');
+
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].src = `img/img${helpers.getRandomInt(0, 18)}.jpg`
+    }
+  }
+
+  return {flipAll, initCards}
 })();
 
 function mainLoop(){
   controller.flipAll();
+  controller.initCards();
 }
 
-function initCards(){
-  var cards = document.querySelectorAll('.cardboard .card .flipper .flipper__back img');
-  console.log(cards);
-}
+
 
 window.onload = function() {
   mainLoop();
