@@ -9,23 +9,51 @@
 </head>
 <body>
   <div id="app" class="app">
-    <div class="app__head">Find a pair</div>
-    <div id="cardboard" class="app__main cardboard">
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
-      <div class="card"></div>
+    <div class="app-head">Find a pair</div>
+
+    <!-- cardboard -->
+    <div id="cardboard" class="cardboard">
+
+      <div class="card">
+          <div class="flipper">
+            <div class="flipper__front">
+              <img src="img/cardbg.jpg" alt="alt">
+            </div>
+            <div class="flipper__back">
+              <img src="img/img0.jpg" alt="alt">
+            </div>
+          </div>
+      </div>
+
+      <div class="card">
+          <div class="flipper">
+            <div class="flipper__front">
+              <img src="img/cardbg.jpg" alt="alt">
+            </div>
+            <div class="flipper__back">
+              <img src="img/img1.jpg" alt="alt">
+            </div>
+          </div>
+      </div>
+
+
+
+
     </div>
-    <div class="app__controls">
-      <button class="app__controls__button button" type="button" name="button">Start</button>
+    <!-- cardboard end -->
+    <!-- menu -->
+    <div class="menu">
+      <select name="field-select" id="field_select">
+        <option value="6">6x6</option>
+        <option value="8">8x8</option>
+        <option value="10">10x10</option>
+        <option value="12">12x12</option>
+
+      </select>
+    </div>
+    <!-- menu end -->
+    <div class="controls">
+      <button class="controls__button button" type="button" name="button">Start</button>
     </div>
   </div>
 

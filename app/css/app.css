@@ -7,13 +7,12 @@
 
 .app {
   border: 1px solid #ccc;
-  max-width: 80%;
-  margin: 5px auto;
+  margin: 5px 20px;
   display: flex;
   flex-direction: column;
 }
 
-.app__head {
+.app-head {
   display: flex;
   justify-content: center;
   padding: 20px 0;
@@ -21,26 +20,58 @@
   margin: 2px;
 }
 
-.app__main {
+.cardboard {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
 .card {
-  width: 120px;
-  height: 150px;
-  border: 1px solid #ccc;
+  width: 150px;
+  height: 200px;
   margin: 2px;
-  background: url("../img/cardbg.jpg");
+  perspective: 1000px;
+}
+
+.card img {
+  max-width: 150px;
+  max-height: 200px;
 }
 
 .card:hover {
   cursor: pointer;
-  opacity: .9;
 }
 
-.app__controls {
+.card.card--flipped .flipper {
+  transform: rotateY(-180deg);
+}
+
+.card .flipper__front,
+.card .flipper__back {
+  width: 150px;
+  height: 200px;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.card .flipper__front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.card .flipper__back {
+  transform: rotateY(180deg);
+}
+
+.card .flipper {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.controls {
   margin: 2px;
   padding: 5px;
   border: 1px solid #ccc;
