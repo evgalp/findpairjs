@@ -1,3 +1,15 @@
+var devModule = (function(){
+  var showAllCards = function() {
+      var cards = document.querySelectorAll(".cardboard .card");
+      [].map.call(cards, function(elem) {elem.classList.add("card--flipped")});
+  };
+  var hideAllCards = function() {
+      var cards = document.querySelectorAll(".cardboard .card");
+      [].map.call(cards, function(elem) {elem.classList.remove("card--flipped")});
+  };
+  return {showAllCards, hideAllCards};
+})();
+
 var appData = (function(){
   var htmlCode = {
     cardHtml: '<div class="card"> <div class="flipper"> <div class="flipper__front"> <img src="img/cardbg.jpg" alt="alt"> </div><div class="flipper__back"> <img src="" alt="alt"> </div></div></div>'
@@ -24,7 +36,7 @@ var helpers = (function(){
       container.appendChild(div);
       div.outerHTML = childHtml;
     }
-  }
+  };
 
   return {getRandomInt, shuffle, insertMultipleChildren};
 })();
@@ -57,12 +69,12 @@ var controller = (function(){
     var cards = document.querySelectorAll(".cardboard .card");
 
     var flipCard = function() {
-        [].map.call(cards, function(elem) { elem.classList.remove("active") });
+        [].map.call(cards, function(elem) { elem.classList.remove("card--flipped") });
         this.classList.add("card--flipped");
         var that = this;
-        setTimeout(function(){
-          that.classList.remove("card--flipped")
-        }, 1000)
+        // setTimeout(function(){
+        //   that.classList.remove("card--flipped")
+        // }, 1000)
     };
 
     var flipAll = function(){
@@ -77,14 +89,48 @@ var controller = (function(){
   return {initFlip, initCards, initField}
 })();
 
+var uiModule = (function(){
+  var fieldSelect = document.getElementById("field_select");
+
+  fieldSelect.addEventListener('change', fieldSelectionHandler, false);
+
+  function fieldSelectionHandler(){
+
+    var cardboard = document.getElementById('cardboard');
+
+    while (cardboard.hasChildNodes()) {
+      cardboard.removeChild(cardboard.lastChild);
+    }
+    var cardsToInit;
+    console.log(field_select.value);
+    if (field_select.value == 6) {
+      // cardsToInit = 6 * 6 / 2;
+      cardsToInit =2;
+    } else if (field_select.value == 8) {
+      // cardsToInit = 8 * 8 / 2;
+      cardsToInit =4;
+
+    } else if (field_select.value == 10) {
+      // cardsToInit = 10 * 10 / 2;
+      cardsToInit =6;
+
+    } else if (field_select.value == 12) {
+      // cardsToInit = 12 * 12 / 2;
+      cardsToInit =8;
+
+    }
+
+    controller.initField(cardsToInit);
+    controller.initCards(cardsToInit);
+    controller.initFlip();
+
+  }
+
+  return {fieldSelectionHandler};
+})();
+
 function mainLoop(){
-  var cardsToInit = 18;
-
-  controller.initField(cardsToInit);
-  controller.initCards(cardsToInit);
-
-  controller.initFlip();
-
+  // uiModule.fieldSelectionHandler();
 }
 
 
