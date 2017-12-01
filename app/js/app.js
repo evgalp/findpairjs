@@ -90,47 +90,58 @@ var controller = (function(){
 })();
 
 var uiModule = (function(){
-  var fieldSelect = document.getElementById("field_select");
+  var generateField = function(){
+    var app = document.getElementById('app');
+    var fieldSelect = document.getElementById("field_select");
 
-  fieldSelect.addEventListener('change', fieldSelectionHandler, false);
+    fieldSelect.addEventListener('change', fieldSelectionHandler, false);
 
-  function fieldSelectionHandler(){
+    function fieldSelectionHandler(){
+      var cardboard = document.getElementById('cardboard');
+      while (cardboard.hasChildNodes()) {
+        cardboard.removeChild(cardboard.lastChild);
+      }
+      var cardsToInit;
+      // console.log(field_select.value);
+      if (field_select.value == 6) {
+        cardsToInit = 6 * 6 / 2;
+        var fieldWidth = 130 * 6;
+        app.style.width = fieldWidth + "px"
+      } else if (field_select.value == 8) {
+        cardsToInit = 8 * 8 / 2;
+        var fieldWidth = 130 * 8;
+        app.style.width = fieldWidth + "px"
+      } else if (field_select.value == 10) {
+        cardsToInit = 10 * 10 / 2;
+        var fieldWidth = 130 * 10;
+        app.style.width = fieldWidth + "px"
+      } else if (field_select.value == 12) {
+        cardsToInit = 12 * 12 / 2;
+        var fieldWidth = 130 * 12;
+        app.style.width = fieldWidth + "px"
+      }
+      controller.initField(cardsToInit);
+      controller.initCards(cardsToInit);
+      controller.initFlip();
 
-    var cardboard = document.getElementById('cardboard');
-
-    while (cardboard.hasChildNodes()) {
-      cardboard.removeChild(cardboard.lastChild);
     }
-    var cardsToInit;
-    console.log(field_select.value);
-    if (field_select.value == 6) {
-      cardsToInit = 6 * 6 / 2;
-      // cardsToInit =2;
-    } else if (field_select.value == 8) {
-      cardsToInit = 8 * 8 / 2;
-      // cardsToInit =4;
 
-    } else if (field_select.value == 10) {
-      cardsToInit = 10 * 10 / 2;
-      // cardsToInit =6;
 
-    } else if (field_select.value == 12) {
-      cardsToInit = 12 * 12 / 2;
-      // cardsToInit =8;
 
-    }
 
-    controller.initField(cardsToInit);
-    controller.initCards(cardsToInit);
-    controller.initFlip();
 
   }
 
-  return {fieldSelectionHandler};
+  return {generateField};
 })();
 
 function mainLoop(){
   // uiModule.fieldSelectionHandler();
+  // document.getElementById("field_select").value = "6";
+  // console.log(field_select);
+  uiModule.generateField();
+  // var card = document.querySelector(".card");
+  // console.log(card);
 }
 
 
