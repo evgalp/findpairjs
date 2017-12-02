@@ -108,63 +108,32 @@ var controller = (function(){
 })();
 
 var uiModule = (function(){
-  var generateField = function(){
+  var fieldSelect = document.getElementById("field_select");
+  fieldSelect.addEventListener('change', generateField, false);
+
+  function generateField (fieldSize){
     var app = document.getElementById('app');
-    var fieldSelect = document.getElementById("field_select");
+    var fieldSize = fieldSelect.value;
+    var cardboard = document.getElementById('cardboard');
 
-    fieldSelect.addEventListener('change', fieldSelectionHandler, false);
-
-    function fieldSelectionHandler(){
-      var cardboard = document.getElementById('cardboard');
-      while (cardboard.hasChildNodes()) {
-        cardboard.removeChild(cardboard.lastChild);
-      }
-      var cardsToInit;
-      if (field_select.value == 6) {
-        cardsToInit = 6 * 6 / 2;
-        var fieldWidth = 130 * 6;
-        app.style.width = fieldWidth + "px"
-      } else if (field_select.value == 8) {
-        cardsToInit = 8 * 8 / 2;
-        var fieldWidth = 130 * 8;
-        app.style.width = fieldWidth + "px"
-      } else if (field_select.value == 10) {
-        cardsToInit = 10 * 10 / 2;
-        var fieldWidth = 130 * 10;
-        app.style.width = fieldWidth + "px"
-      } else if (field_select.value == 12) {
-        cardsToInit = 12 * 12 / 2;
-        var fieldWidth = 130 * 12;
-        app.style.width = fieldWidth + "px"
-      } else if (field_select.value == 2) {
-        cardsToInit = 2 * 2 / 2;
-        var fieldWidth = 130 * 2;
-        app.style.width = fieldWidth + "px"
-      } else if (field_select.value == 4) {
-        cardsToInit = 4 * 4 / 2;
-        var fieldWidth = 130 * 4;
-        app.style.width = fieldWidth + "px"
-      }
-      controller.initField(cardsToInit);
-      controller.initCards(cardsToInit);
-      helpers.duplicateChildNodes('cardboard');
-      helpers.shuffleChildNodes('cardboard');
-      controller.initFlip();
-
+    while (cardboard.hasChildNodes()) {
+      cardboard.removeChild(cardboard.lastChild);
     }
-
+    var cardsToInit = fieldSize * fieldSize / 2;
+    var fieldWidth = 130 * fieldSize;
+    app.style.width = fieldWidth + "px"
+    controller.initField(cardsToInit);
+    controller.initCards(cardsToInit);
+    helpers.duplicateChildNodes('cardboard');
+    helpers.shuffleChildNodes('cardboard');
+    controller.initFlip();
   }
 
   return {generateField};
 })();
 
 function mainLoop(){
-  // uiModule.fieldSelectionHandler();
-  // document.getElementById("field_select").value = "6";
-  // console.log(field_select);
   uiModule.generateField();
-  // var card = document.querySelector(".card");
-  // console.log(card);
 }
 
 
