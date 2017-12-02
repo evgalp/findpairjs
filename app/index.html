@@ -32,10 +32,27 @@
     </div>
     <!-- menu end -->
     <div class="controls">
-      <button class="controls__button button" type="button" name="button">Start</button>
+      <div class="controls__row">
+        <div id="game_logs" class="game-logs">Game logs here</div>
+      </div>
+      <div class="controls__row">
+        <div id="stopwatch" class="stopwatch">
+          <span>00</span>
+          <span>:</span>
+          <span>00</span>
+          <span>:</span>
+          <span>00</span>
+        </div>
+      </div>
+      <div class="controls__row">
+        <button id="start_stop_btn" class="controls__button button" type="button" name="button">Start</button>
+      </div>
     </div>
   </div>
 
   <script src="js/app.js" charset="utf-8"></script>
+  <script src="js/cards.js" charset="utf-8"></script>
+  <script src="js/stopwatch.js" charset="utf-8"></script>
+
 </body>
 </html>
