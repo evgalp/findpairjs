@@ -59,55 +59,7 @@ var helpers = (function(){
 })();
 
 
-var controller = (function(){
-
-  var initCards = function(cardsAmount){
-    var cards = document.querySelectorAll('.cardboard .card .flipper .flipper__back img');
-
-    var existingImgArr = [];
-
-    for (var i = 0; i < cardsAmount; i++) {
-      existingImgArr.push(i);
-    }
-
-    helpers.shuffle(existingImgArr);
-
-    for (var i = 0; i < cards.length; i++) {
-      cards[i].src = `img/img${existingImgArr[i]}.png`;
-    }
-
-  }
-
-  var initField = function (fieldSize) {
-    helpers.insertMultipleChildren('cardboard', fieldSize, appData.htmlCode.cardHtml);
-
-  }
-
-  var initFlip = function () {
-    var cards = document.querySelectorAll(".cardboard .card");
-
-    var flipCard = function() {
-        [].map.call(cards, function(elem) { elem.classList.remove("card--flipped") });
-        this.classList.add("card--flipped");
-        var that = this;
-        // setTimeout(function(){
-        //   that.classList.remove("card--flipped")
-        // }, 1000)
-    };
-
-    var flipAll = function(){
-      [].map.call(cards, function(elem) {
-          elem.addEventListener("click", flipCard, false);
-      });
-    }
-
-    flipAll();
-  }
-
-  return {initFlip, initCards, initField}
-})();
-
-var uiModule = (function(){
+var fieldGenerationModule = (function(){
   var fieldSelect = document.getElementById("field_select");
   fieldSelect.addEventListener('change', generateField, false);
 
@@ -115,25 +67,82 @@ var uiModule = (function(){
     var app = document.getElementById('app');
     var fieldSize = fieldSelect.value;
     var cardboard = document.getElementById('cardboard');
-
     while (cardboard.hasChildNodes()) {
       cardboard.removeChild(cardboard.lastChild);
     }
     var cardsToInit = fieldSize * fieldSize / 2;
     var fieldWidth = 130 * fieldSize;
     app.style.width = fieldWidth + "px"
-    controller.initField(cardsToInit);
-    controller.initCards(cardsToInit);
+    initField(cardsToInit);
+    initCards(cardsToInit);
     helpers.duplicateChildNodes('cardboard');
     helpers.shuffleChildNodes('cardboard');
-    controller.initFlip();
+    cardClickListener();
   }
 
-  return {generateField};
+  var initCards = function(cardsAmount){
+    var cards = document.querySelectorAll('.cardboard .card .flipper .flipper__back img');
+    var existingImgArr = [];
+    for (var i = 0; i < cardsAmount; i++) {
+      existingImgArr.push(i);
+    }
+    helpers.shuffle(existingImgArr);
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].src = `img/img${existingImgArr[i]}.png`;
+    }
+  }
+
+  var initField = function (fieldSize) {
+    helpers.insertMultipleChildren('cardboard', fieldSize, appData.htmlCode.cardHtml);
+  }
+
+
+  function cardClickListener(){
+    var clickedCardsArr = [];
+
+    var cards = document.querySelectorAll(".cardboard .card");
+    [].map.call(cards, function(elem) {
+      elem.addEventListener('click', cardClickCallback)
+    });
+
+    function cardClickCallback(){
+      if (clickedCardsArr.length === 2) return;
+      if (clickedCardsArr.length === 2) return;
+      if (this.classList.contains('card--flipped')) return;
+      this.classList.add('card--flipped');
+      clickedCardsArr.push(this.innerHTML);
+      detectMatch();
+    }
+
+    function detectMatch(thisCard){
+      if (clickedCardsArr.length !== 2) return;
+      if (clickedCardsArr[0] === clickedCardsArr[1]) {
+        console.log('match');
+        resetCards(1000);
+        clickedCardsArr = [];
+      } else {
+        console.log('no match');
+        resetCards(1000);
+        clickedCardsArr = [];
+      }
+    }
+
+    function resetCards(resetTime, targetCard){
+      setTimeout( function() {
+        var selectedCards = document.querySelectorAll('.card--flipped');
+        [].map.call(cards, function(elem) {
+          elem.classList.remove('card--flipped');
+        });
+      }, resetTime);
+    }
+
+  }
+
+  return {generateField}
 })();
 
 function mainLoop(){
-  uiModule.generateField();
+  fieldGenerationModule.generateField();
 }
 
 
