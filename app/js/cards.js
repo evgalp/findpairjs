@@ -99,6 +99,9 @@ var fieldGenerationModule = (function(){
 
   function cardClickListener(){
     var clickedCardsArr = [];
+    var attempts = 0;
+
+    var cardboard = document.getElementById('cardboard');
 
     var cards = document.querySelectorAll(".cardboard .card");
     [].map.call(cards, function(elem) {
@@ -119,10 +122,14 @@ var fieldGenerationModule = (function(){
       if (clickedCardsArr[0].innerHTML === clickedCardsArr[1].innerHTML) {
         document.getElementById('game_logs').innerHTML = "match!";
         removeCards();
+        attempts += 1;
+        document.getElementById('attempts').innerHTML = attempts;
         clickedCardsArr = [];
       } else {
         document.getElementById('game_logs').innerHTML = "NO match!";
         resetCards(1000);
+        attempts += 1;
+        document.getElementById('attempts').innerHTML = attempts;
         clickedCardsArr = [];
       }
     }
