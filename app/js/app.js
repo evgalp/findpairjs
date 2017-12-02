@@ -38,7 +38,24 @@ var helpers = (function(){
     }
   };
 
-  return {getRandomInt, shuffle, insertMultipleChildren};
+  var duplicateChildNodes = function (parentId){
+    var parent = document.getElementById(parentId);
+    NodeList.prototype.forEach = Array.prototype.forEach;
+    var children = parent.childNodes;
+    children.forEach(function(item){
+      var cln = item.cloneNode(true);
+      parent.appendChild(cln);
+    });
+  };
+
+  var shuffleChildNodes = function (parentId){
+    var parent = document.getElementById(parentId);
+    for (var i = parent.children.length; i >= 0; i--) {
+      parent.appendChild(parent.children[Math.random() * i | 0]);
+    }
+  }
+
+  return {getRandomInt, shuffle, insertMultipleChildren, duplicateChildNodes, shuffleChildNodes};
 })();
 
 
@@ -62,7 +79,8 @@ var controller = (function(){
   }
 
   var initField = function (fieldSize) {
-    helpers.insertMultipleChildren('cardboard', fieldSize, appData.htmlCode.cardHtml)
+    helpers.insertMultipleChildren('cardboard', fieldSize, appData.htmlCode.cardHtml);
+
   }
 
   var initFlip = function () {
@@ -102,7 +120,6 @@ var uiModule = (function(){
         cardboard.removeChild(cardboard.lastChild);
       }
       var cardsToInit;
-      // console.log(field_select.value);
       if (field_select.value == 6) {
         cardsToInit = 6 * 6 / 2;
         var fieldWidth = 130 * 6;
@@ -119,16 +136,22 @@ var uiModule = (function(){
         cardsToInit = 12 * 12 / 2;
         var fieldWidth = 130 * 12;
         app.style.width = fieldWidth + "px"
+      } else if (field_select.value == 2) {
+        cardsToInit = 2 * 2 / 2;
+        var fieldWidth = 130 * 2;
+        app.style.width = fieldWidth + "px"
+      } else if (field_select.value == 4) {
+        cardsToInit = 4 * 4 / 2;
+        var fieldWidth = 130 * 4;
+        app.style.width = fieldWidth + "px"
       }
       controller.initField(cardsToInit);
       controller.initCards(cardsToInit);
+      helpers.duplicateChildNodes('cardboard');
+      helpers.shuffleChildNodes('cardboard');
       controller.initFlip();
 
     }
-
-
-
-
 
   }
 
