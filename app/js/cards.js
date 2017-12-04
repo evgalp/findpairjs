@@ -210,13 +210,13 @@ function mainLoop(){
     devModule.showAllCards();
     setTimeout(function() {
       devModule.hideAllCards();
-      domVariables.cardboard.classList.remove('click-disabled');
+      domVariables.cardboard.classList.remove('pointer-events-disabled');
     }, 2000)
     stopwatch.start();
   }
 
   function pauseGame(){
-    domVariables.cardboard.classList.add('click-disabled');
+    domVariables.cardboard.classList.add('pointer-events-disabled');
     stopwatch.stop();
   }
 }
