@@ -110,6 +110,6 @@
   text-decoration: underline;
 }
 
-.click-disabled {
+.pointer-events-disabled {
   pointer-events: none;
 }
