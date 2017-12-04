@@ -33,6 +33,8 @@
   width: 120px;
   height: 180px;
   margin: 2px;
+  opacity: 1;
+  transition: 0.2s ease;
   perspective: 1000px;
 }
 
@@ -47,6 +49,11 @@
 
 .card.card--flipped .flipper {
   transform: rotateY(-180deg);
+}
+
+.card.card--hidden {
+  visibility: hidden;
+  opacity: 0;
 }
 
 .card .flipper__front,

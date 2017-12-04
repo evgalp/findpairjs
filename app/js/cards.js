@@ -1,9 +1,12 @@
 var domVariables = {
   app: document.getElementById('app'),
-  fieldSelect: document.getElementById("field_select"),
+  fieldSelect: document.getElementById("fieldSelect"),
   cardboard: document.getElementById('cardboard'),
   startBtn: document.getElementById("startBtn"),
-  pauseBtn: document.getElementById('pauseBtn')
+  pauseBtn: document.getElementById('pauseBtn'),
+  attemptsLog: document.getElementById('attempts'),
+  matchLog: document.getElementById('matchLog'),
+  stopwatchLog: document.getElementById('stopwatch')
 }
 
 var devModule = (function(){
@@ -81,6 +84,7 @@ var fieldGenerationModule = (function(){
     initCards(cardsToInit);
     helpers.duplicateChildNodes('cardboard');
     helpers.shuffleChildNodes('cardboard');
+    setCardsId();
     cardClickListener();
   }
 
@@ -96,15 +100,21 @@ var fieldGenerationModule = (function(){
     }
   }
 
+  function setCardsId(){
+    var cards = document.querySelectorAll('.card')
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].id = `card-${i}`;
+    }
+  }
+
   var initField = function (fieldSize) {
     helpers.insertMultipleChildren('cardboard', fieldSize, appData.htmlCode.cardHtml);
   }
 
+  var clickedCardsArr = [];
 
   function cardClickListener(){
-    console.log(domVariables.cardboard);
 
-    var clickedCardsArr = [];
     var attempts = 0;
 
     domVariables.cardboard.addEventListener('click', cardClickCallback);
@@ -112,61 +122,76 @@ var fieldGenerationModule = (function(){
     function cardClickCallback(event){
       event.stopPropagation();
       var currentCard = event.target.parentElement.parentElement.parentElement;
+
       if (clickedCardsArr.length === 2) {
         return
       };
 
-      if (clickedCardsArr.length < 2 && currentCard.classList.contains('card')) {
-        console.log(clickedCardsArr.length);
+      if (clickedCardsArr.length === 1 && currentCard.id === clickedCardsArr[0].id) {
+        return;
+      }
+
+      if (clickedCardsArr.length < 3 && currentCard.classList.contains('card')) {
         currentCard.classList.add('card--flipped');
         clickedCardsArr.push(currentCard);
-        console.log(clickedCardsArr);
         detectMatch();
       }
     }
 
     function detectMatch(thisCard){
-      if (clickedCardsArr.length !== 2) return;
-      if (clickedCardsArr[0].innerHTML === clickedCardsArr[1].innerHTML) {
-        document.getElementById('game_logs').innerHTML = "match!";
-        removeCards();
-        attempts += 1;
-        document.getElementById('attempts').innerHTML = attempts;
-        clickedCardsArr = [];
-      } else {
-        document.getElementById('game_logs').innerHTML = "no match!";
-        resetCards(1000);
-        attempts += 1;
-        document.getElementById('attempts').innerHTML = attempts;
-        clickedCardsArr = [];
-      }
-    }
-
-    function resetCards(resetTime){
-      setTimeout( function() {
-        var selectedCards = document.querySelectorAll('.card--flipped');
-        [].map.call(selectedCards, function(elem) {
-          elem.classList.remove('card--flipped');
-        });
-      }, resetTime);
-    }
-
-    function removeCards(removeTime){
-      setTimeout( function() {
-        var selectedCards = document.querySelectorAll('.card--flipped');
-        [].map.call(selectedCards, function(elem) {
-          elem.remove();
-        });
-
-        if (document.getElementById("cardboard").querySelectorAll('.card').length ==0) {
-          stopwatch.stop();
-          setTimeout(function(){
-            stopwatch.reset();
-            document.getElementById('stopwatch').innerHTML = '00:00:00'
-          }, 2000)
+      setTimeout(function(){
+        if (clickedCardsArr.length !== 2) return;
+        if (clickedCardsArr[0].innerHTML === clickedCardsArr[1].innerHTML) {
+          domVariables.matchLog.innerHTML = "match!";
+          removeCards();
+          attempts += 1;
+          domVariables.attemptsLog.innerHTML = attempts;
+          clickedCardsArr = [];
+        } else {
+          domVariables.matchLog.innerHTML = "no match!";
+          resetCards();
+          attempts += 1;
+          domVariables.attemptsLog.innerHTML = attempts;
+          clickedCardsArr = [];
         }
+      }, 500)
+    }
 
-      }, 1000)
+    function resetCards(){
+      var selectedCards = document.querySelectorAll('.card--flipped');
+      [].map.call(selectedCards, function(elem) {
+        elem.classList.remove('card--flipped');
+      });
+    }
+
+    function removeCards(){
+      var selectedCards = document.querySelectorAll('.card--flipped');
+      [].map.call(selectedCards, function(elem) {
+        elem.classList.add('card--hidden');
+      });
+
+      endGame();
+
+    }
+
+    function endGame(){
+
+      var removedCards = document.querySelectorAll('.card--hidden').length;
+      var totalCards = document.querySelectorAll('.card').length;
+
+      if (removedCards === totalCards) {
+        stopwatch.stop();
+        stopwatch.reset();
+
+        domVariables.matchLog.innerHTML = `Last game was completed in ${domVariables.stopwatchLog.innerHTML} with ${attempts + 1} attempts.`
+
+        setTimeout(function() {
+          attempts = 0;
+          domVariables.stopwatchLog.innerHTML = '00:00:00';
+          domVariables.attemptsLog.innerHTML = '0';
+        }, 1000)
+      }
+
     }
 
 

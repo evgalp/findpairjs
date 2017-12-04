@@ -40,6 +40,10 @@ body{
   width: $card-width;
   height: $card-height;
   margin: 2px;
+
+  opacity: 1;
+  transition: 0.2s ease;
+
   perspective: 1000px;
   img{
     max-width: $card-width;
@@ -52,6 +56,10 @@ body{
     .flipper{
       transform: rotateY(-180deg);
     }
+  }
+  &.card--hidden{
+    visibility: hidden;
+    opacity: 0;
   }
   .flipper__front,
   .flipper__back {
