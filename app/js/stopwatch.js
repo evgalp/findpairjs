@@ -95,4 +95,5 @@ function clearChildren(node) {
 
 let stopwatch = new Stopwatch(
     document.querySelector('.stopwatch'),
-    document.querySelector('.results'));
+    document.querySelector('.results')
+);

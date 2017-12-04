@@ -1,3 +1,11 @@
+var domVariables = {
+  app: document.getElementById('app'),
+  fieldSelect: document.getElementById("field_select"),
+  cardboard: document.getElementById('cardboard'),
+  startBtn: document.getElementById("startBtn"),
+  pauseBtn: document.getElementById('pauseBtn')
+}
+
 var devModule = (function(){
   var showAllCards = function() {
       var cards = document.querySelectorAll(".cardboard .card");
@@ -60,19 +68,15 @@ var helpers = (function(){
 
 
 var fieldGenerationModule = (function(){
-  var fieldSelect = document.getElementById("field_select");
-  fieldSelect.addEventListener('change', generateField, false);
 
   function generateField (fieldSize){
-    var app = document.getElementById('app');
-    var fieldSize = fieldSelect.value;
-    var cardboard = document.getElementById('cardboard');
-    while (cardboard.hasChildNodes()) {
-      cardboard.removeChild(cardboard.lastChild);
+    var fieldSize = domVariables.fieldSelect.value;
+    while (domVariables.cardboard.hasChildNodes()) {
+      domVariables.cardboard.removeChild(domVariables.cardboard.lastChild);
     }
     var cardsToInit = fieldSize * fieldSize / 2;
     var fieldWidth = 130 * fieldSize;
-    app.style.width = fieldWidth + "px"
+    domVariables.app.style.width = fieldWidth + "px"
     initField(cardsToInit);
     initCards(cardsToInit);
     helpers.duplicateChildNodes('cardboard');
@@ -98,23 +102,27 @@ var fieldGenerationModule = (function(){
 
 
   function cardClickListener(){
+    console.log(domVariables.cardboard);
+
     var clickedCardsArr = [];
     var attempts = 0;
 
-    var cardboard = document.getElementById('cardboard');
+    domVariables.cardboard.addEventListener('click', cardClickCallback);
 
-    var cards = document.querySelectorAll(".cardboard .card");
-    [].map.call(cards, function(elem) {
-      elem.addEventListener('click', cardClickCallback)
-    });
+    function cardClickCallback(event){
+      event.stopPropagation();
+      var currentCard = event.target.parentElement.parentElement.parentElement;
+      if (clickedCardsArr.length === 2) {
+        return
+      };
 
-    function cardClickCallback(){
-      if (clickedCardsArr.length === 2) return;
-      if (this.classList.contains('card--flipped')) return;
-
-      this.classList.add('card--flipped');
-      clickedCardsArr.push(this);
-      detectMatch();
+      if (clickedCardsArr.length < 2 && currentCard.classList.contains('card')) {
+        console.log(clickedCardsArr.length);
+        currentCard.classList.add('card--flipped');
+        clickedCardsArr.push(currentCard);
+        console.log(clickedCardsArr);
+        detectMatch();
+      }
     }
 
     function detectMatch(thisCard){
@@ -126,7 +134,7 @@ var fieldGenerationModule = (function(){
         document.getElementById('attempts').innerHTML = attempts;
         clickedCardsArr = [];
       } else {
-        document.getElementById('game_logs').innerHTML = "NO match!";
+        document.getElementById('game_logs').innerHTML = "no match!";
         resetCards(1000);
         attempts += 1;
         document.getElementById('attempts').innerHTML = attempts;
@@ -137,7 +145,7 @@ var fieldGenerationModule = (function(){
     function resetCards(resetTime){
       setTimeout( function() {
         var selectedCards = document.querySelectorAll('.card--flipped');
-        [].map.call(cards, function(elem) {
+        [].map.call(selectedCards, function(elem) {
           elem.classList.remove('card--flipped');
         });
       }, resetTime);
@@ -149,10 +157,38 @@ var fieldGenerationModule = (function(){
         [].map.call(selectedCards, function(elem) {
           elem.remove();
         });
+
+        if (document.getElementById("cardboard").querySelectorAll('.card').length ==0) {
+          stopwatch.stop();
+          setTimeout(function(){
+            stopwatch.reset();
+            document.getElementById('stopwatch').innerHTML = '00:00:00'
+          }, 2000)
+        }
+
       }, 1000)
     }
+
 
   }
 
   return {generateField}
 })();
+
+function mainLoop(){
+  domVariables.startBtn.addEventListener("click", startGame);
+  domVariables.pauseBtn.addEventListener('click', pauseGame);
+
+  function startGame(){
+    fieldGenerationModule.generateField();
+    stopwatch.start();
+  }
+
+  function pauseGame(){
+    stopwatch.stop();
+  }
+}
+
+window.onload = function() {
+  mainLoop();
+}
