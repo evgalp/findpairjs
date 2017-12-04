@@ -203,13 +203,20 @@ var fieldGenerationModule = (function(){
 function mainLoop(){
   domVariables.startBtn.addEventListener("click", startGame);
   domVariables.pauseBtn.addEventListener('click', pauseGame);
+  domVariables.fieldSelect.addEventListener('click', pauseGame);
 
   function startGame(){
     fieldGenerationModule.generateField();
+    devModule.showAllCards();
+    setTimeout(function() {
+      devModule.hideAllCards();
+      domVariables.cardboard.classList.remove('click-disabled');
+    }, 2000)
     stopwatch.start();
   }
 
   function pauseGame(){
+    domVariables.cardboard.classList.add('click-disabled');
     stopwatch.stop();
   }
 }

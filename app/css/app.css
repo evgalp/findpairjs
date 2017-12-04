@@ -45,6 +45,7 @@
 
 .card:hover {
   cursor: pointer;
+  opacity: 0.8;
 }
 
 .card.card--flipped .flipper {
@@ -107,4 +108,8 @@
 .button:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.click-disabled {
+  pointer-events: none;
 }
