@@ -94,7 +94,11 @@ var gameLogic = {
 
   newGame: function () {
     gameLogic.resetGame();
-    callbackFunctions.buffer.playerName = playerNameInput.value;
+    if (domVariables.playerNameInput.value == '') {
+      alert('Please enter player name');
+      return;
+    }
+    callbackFunctions.buffer.playerName = domVariables.playerNameInput.value;
     render.showAllCards();
     setTimeout(function () {
       render.hideAllCards();
@@ -132,6 +136,7 @@ var gameLogic = {
     stopwatch.stop();
     render.updateLastGameLogs();
     bestResults.saveScoresToLocalStorage();
+    domVariables.playerNameInput.value = '';
   }
 
 }
@@ -328,6 +333,7 @@ var callbackFunctions = {
 
   fieldSelectCallback: function () {
     gameLogic.resetGame();
+    domVariables.playerNameInput.value = '';
   },
 
   startBtnCallback: function () {
