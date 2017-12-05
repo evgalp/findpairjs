@@ -4,48 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,700" rel="stylesheet">
   <link rel="stylesheet" href="css/app.css">
   <title>Find a pair game</title>
 </head>
 <body>
   <div id="app" class="app">
-    <div class="app-head">Find a pair</div>
-
+    <div class="app-head container container--painted border-bottom-radius-removed margin-removed">Find the pair !</div>
     <!-- cardboard -->
-    <div id="cardboard" class="cardboard pointer-events-disabled"></div>
+    <div id="cardboard" class="cardboard container pointer-events-disabled border-bottom-removed border-top-removed margin-removed border-bottom-radius-removed border-top-radius-removed"></div>
     <!-- cardboard end -->
-    <!-- menu -->
-    <div class="menu">
-      <div class="menu-row">
-        <span>field size:</span>
-        <select name="field-select" id="fieldSelect">
-          <option value="2">2x2</option>
-          <option value="4">4x4</option>
-          <option value="6">6x6</option>
-          <option value="8">8x8</option>
-          <option value="10">10x10</option>
-          <option value="12">12x12</option>
-        </select>
-      </div>
-    </div>
-    <!-- menu end -->
-    <div class="controls">
-      <div class="controls__row">
-        <div id="matchLog" class="game-logs">Game logs here</div>
-      </div>
-      <div class="controls__row">
-        <div id="stopwatch" class="stopwatch">
-          <span>00</span>
-          <span>:</span>
-          <span>00</span>
-          <span>:</span>
-          <span>00</span>
+    <div class="controls container container--painted border-top-radius-removed margin-removed">
+      <div class="controls__wrapper">
+        <div class="controls__row">
+          <span class="margin-right">Select field size:</span>
+          <select name="field-select" id="fieldSelect" class="select">
+            <option value="2">2x2</option>
+            <option value="4">4x4</option>
+            <option value="6">6x6</option>
+            <option value="8">8x8</option>
+            <option value="10">10x10</option>
+            <option value="12">12x12</option>
+          </select>
         </div>
-      </div>
-      <div class="controls__row"><span>attempted: </span><span id="attempts">0</span></div>
-      <div class="controls__row">
-        <button id="startBtn" class="controls__button button" type="button" name="button">Start</button>
-        <button id="pauseBtn" class="controls__button button" type="button" name="button">Pause</button>
+        <div class="controls__row">
+          <div id="matchLog" class="game-logs">Game logs will appear here</div>
+        </div>
+        <div class="controls__row">
+          <span class="margin-right">Time elapsed:</span>
+          <div id="stopwatch" class="stopwatch">
+            <span>00</span>
+            <span>:</span>
+            <span>00</span>
+            <span>:</span>
+            <span>00</span>
+          </div>
+        </div>
+        <div class="controls__row"><span class="margin-right">Attempted: </span><span id="attempts">0</span></div>
+        <div class="controls__row controls__row--distibuted">
+          <button id="startBtn" class="controls__button button" type="button" name="button">Start</button>
+          <button id="pauseBtn" class="controls__button button" type="button" name="button">Pause</button>
+        </div>
+        <div class="controls__row controls__row--centered">
+          <button id="switchThemeBtn" class="controls__button button button--full-width" type="button" name="button">Switch color theme</button>
+        </div>
       </div>
     </div>
   </div>

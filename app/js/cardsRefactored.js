@@ -1,13 +1,14 @@
 var domVariables = {
   app: document.getElementById('app'),
-  fieldSelect: document.getElementById("fieldSelect"),
+  fieldSelect: document.getElementById('fieldSelect'),
   cardboard: document.getElementById('cardboard'),
-  startBtn: document.getElementById("startBtn"),
+  startBtn: document.getElementById('startBtn'),
   pauseBtn: document.getElementById('pauseBtn'),
   attemptsLog: document.getElementById('attempts'),
   matchLog: document.getElementById('matchLog'),
   stopwatchLog: document.getElementById('stopwatch'),
-  totalCardsAmount: document.querySelectorAll('.card')
+  totalCardsAmount: document.querySelectorAll('.card'),
+  switchThemeBtn: document.getElementById('switchThemeBtn')
 }
 
 var helpers = {
