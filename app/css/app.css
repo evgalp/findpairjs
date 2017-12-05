@@ -4,10 +4,18 @@
 }
 
 body {
-  background: #fff;
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
+}
+
+body.theme-light {
+  background: #fff;
   color: #4b5157;
+}
+
+body.theme-dark {
+  background: #2a2c33;
+  color: #cecec9;
 }
 
 .container {
@@ -22,30 +30,13 @@ body {
   background: #f7f7f7;
 }
 
-.margin-removed {
-  margin: 0;
+.container.container--dark {
+  background: #2a2c33;
+  border-color: #454a57;
 }
 
-.margin-right {
-  margin-right: 5px;
-}
-
-.border-bottom-radius-removed {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.border-top-radius-removed {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.border-bottom-removed {
-  border-bottom: 0;
-}
-
-.border-top-removed {
-  border-top: 0;
+.container.container--dark.container--painted {
+  background: #2a2c33;
 }
 
 .app {
@@ -163,6 +154,16 @@ body {
   width: 100%;
 }
 
+.button.button--dark {
+  border-color: #2cc790;
+  color: #2cc790;
+}
+
+.button.button--dark:hover {
+  background: #2cc790;
+  color: #fff;
+}
+
 .select {
   background: transparent;
   box-shadow: 0;
@@ -173,12 +174,44 @@ body {
   padding: 10px 20px;
   font-size: 20px;
   margin: 2px;
+  transition: 0.2s ease;
 }
 
 .select:hover {
   cursor: pointer;
 }
 
+.select.select--dark {
+  border-color: #2cc790;
+  color: #2cc790;
+}
+
 .pointer-events-disabled {
   pointer-events: none;
+}
+
+.margin-removed {
+  margin: 0;
+}
+
+.margin-right {
+  margin-right: 5px;
+}
+
+.border-bottom-radius-removed {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.border-top-radius-removed {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.border-bottom-removed {
+  border-bottom: 0;
+}
+
+.border-top-removed {
+  border-top: 0;
 }

@@ -8,7 +8,13 @@ var domVariables = {
   matchLog: document.getElementById('matchLog'),
   stopwatchLog: document.getElementById('stopwatch'),
   totalCardsAmount: document.querySelectorAll('.card'),
-  switchThemeBtn: document.getElementById('switchThemeBtn')
+  switchThemeBtn: document.getElementById('switchThemeBtn'),
+  themeComponents: {
+    containers: document.querySelectorAll('.container'),
+    buttons: document.querySelectorAll('.button'),
+    selects: document.querySelectorAll('.select'),
+    body: document.querySelector('body')
+  }
 }
 
 var helpers = {
@@ -198,6 +204,34 @@ var render = {
 
   updateLastGameLogs: function () {
     domVariables.matchLog.innerHTML = `Last game was completed in ${domVariables.stopwatchLog.innerHTML} with ${callbackFunctions.buffer.attempts} attempts.`
+  },
+
+  switchColorTheme: function () {
+    if (callbackFunctions.buffer.isLisghtTheme) {
+      domVariables.themeComponents.body.classList.add('theme-dark');
+      [].map.call(domVariables.themeComponents.containers, function(elem) {
+        elem.classList.add('container--dark');
+      });
+      [].map.call(domVariables.themeComponents.buttons, function(elem) {
+        elem.classList.add('button--dark');
+      });
+      [].map.call(domVariables.themeComponents.selects, function(elem) {
+        elem.classList.add('select--dark');
+      });
+      callbackFunctions.buffer.isLisghtTheme = !callbackFunctions.buffer.isLisghtTheme;
+    } else {
+      domVariables.themeComponents.body.classList.remove('theme-dark');
+      [].map.call(domVariables.themeComponents.containers, function(elem) {
+        elem.classList.remove('container--dark');
+      });
+      [].map.call(domVariables.themeComponents.buttons, function(elem) {
+        elem.classList.remove('button--dark');
+      });
+      [].map.call(domVariables.themeComponents.selects, function(elem) {
+        elem.classList.remove('select--dark');
+      });
+      callbackFunctions.buffer.isLisghtTheme = !callbackFunctions.buffer.isLisghtTheme;
+    }
   }
 }
 
@@ -208,7 +242,8 @@ var callbackFunctions = {
     attempts: 0,
     totalCardsAmount: 0,
     removedCardsAmount: 0,
-    isPaused: true
+    isPaused: true,
+    isLisghtTheme: true
   },
 
   cardClickCallback: function() {
@@ -218,7 +253,6 @@ var callbackFunctions = {
     let card = event.target.parentElement.parentElement.parentElement;
 
     if (callbackFunctions.buffer.activeCards.length === 1 && callbackFunctions.buffer.activeCards[0].id === card.id) {
-      console.log("JNJKJKLJKLJKLJKL:SSF");
       return;
     };
 
@@ -267,6 +301,10 @@ var callbackFunctions = {
 
   pauseBtnCallback: function () {
     gameLogic.pauseGame();
+  },
+
+  switchThemeBtnCallback: function () {
+    render.switchColorTheme();
   }
 }
 
@@ -276,6 +314,7 @@ function attachEvents(){
   domVariables.fieldSelect.addEventListener('change', callbackFunctions.fieldSelectCallback);
   domVariables.startBtn.addEventListener('click', callbackFunctions.startBtnCallback);
   domVariables.pauseBtn.addEventListener('click', callbackFunctions.pauseBtnCallback);
+  domVariables.switchThemeBtn.addEventListener('click', callbackFunctions.switchThemeBtnCallback)
 }
 
 function mainLoop() {
