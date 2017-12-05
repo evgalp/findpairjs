@@ -86,24 +86,27 @@ var gameLogic = {
     callbackFunctions.buffer.isPaused = false;
     render.removeAllCards();
     render.renderField();
-    domVariables.cardboard.classList.remove('pointer-events-disabled');
-    domVariables.pauseBtn.classList.remove('pointer-events-disabled');
-    render.updateAttempts(0);
-    render.updateStopwatch('00:00:00');
-    stopwatch.reset();
-    stopwatch.start();
+    render.showAllCards();
+    setTimeout(function () {
+      render.hideAllCards();
+      domVariables.cardboard.classList.remove('pointer-events-disabled');
+      domVariables.pauseBtn.classList.remove('pointer-events-disabled');
+      render.updateAttempts(0);
+      render.updateStopwatch('00:00:00');
+      stopwatch.stop();
+      stopwatch.restart();
+      stopwatch.start();
+    }, 2000)
   },
 
   pauseGame: function () {
     if (!callbackFunctions.buffer.isPaused) {
       callbackFunctions.buffer.isPaused = true;
-      console.log('paused');
       domVariables.cardboard.classList.add('pointer-events-disabled');
       domVariables.startBtn.classList.add('pointer-events-disabled');
       stopwatch.stop();
       domVariables.pauseBtn.innerHTML = 'Resume';
     } else if (callbackFunctions.buffer.isPaused) {
-      console.log('resumed');
       callbackFunctions.buffer.isPaused = false;
       domVariables.cardboard.classList.remove('pointer-events-disabled');
       domVariables.startBtn.classList.remove('pointer-events-disabled');
@@ -247,14 +250,13 @@ var callbackFunctions = {
   },
 
   cardClickCallback: function() {
-    console.log('callbackFunctions.buffer.activeCards is : ', callbackFunctions.buffer.activeCards);
 
     event.stopPropagation();
     let card = event.target.parentElement.parentElement.parentElement;
 
-    if (callbackFunctions.buffer.activeCards.length === 1 && callbackFunctions.buffer.activeCards[0].id === card.id) {
-      return;
-    };
+    if (!card.classList.contains('card')) {return};
+
+    if (callbackFunctions.buffer.activeCards.length === 1 && callbackFunctions.buffer.activeCards[0].id === card.id) {return};
 
     callbackFunctions.buffer.activeCards.push(card);
 

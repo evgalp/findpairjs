@@ -37,7 +37,7 @@ body{
 
 .app{
   margin: 5px auto;
-  width: 80%;
+  min-width: 280px;
   display: flex;
   flex-direction: column;
 }
@@ -54,14 +54,15 @@ body{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  transition: 0.2s ease;
 }
 
 .card{
-  $card-width: 120px;
-  $card-height: 180px;
-
+  $card-width: 60px;
+  $card-height: 60px;
   width: $card-width;
   height: $card-height;
+  margin: 1px 0;
   opacity: 1;
   transition: 0.2s ease;
   perspective: 1000px;
@@ -178,6 +179,7 @@ body{
 
 .pointer-events-disabled{
   pointer-events: none;
+  opacity: 0.7;
 }
 
 .margin-removed{

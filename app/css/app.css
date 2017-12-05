@@ -41,7 +41,7 @@ body.theme-dark {
 
 .app {
   margin: 5px auto;
-  width: 80%;
+  min-width: 280px;
   display: flex;
   flex-direction: column;
 }
@@ -58,19 +58,21 @@ body.theme-dark {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  transition: 0.2s ease;
 }
 
 .card {
-  width: 120px;
-  height: 180px;
+  width: 60px;
+  height: 60px;
+  margin: 1px 0;
   opacity: 1;
   transition: 0.2s ease;
   perspective: 1000px;
 }
 
 .card img {
-  max-width: 120px;
-  max-height: 180px;
+  max-width: 60px;
+  max-height: 60px;
 }
 
 .card:hover {
@@ -89,8 +91,8 @@ body.theme-dark {
 
 .card .flipper__front,
 .card .flipper__back {
-  width: 120px;
-  height: 180px;
+  width: 60px;
+  height: 60px;
   backface-visibility: hidden;
   position: absolute;
   top: 0;
@@ -188,6 +190,7 @@ body.theme-dark {
 
 .pointer-events-disabled {
   pointer-events: none;
+  opacity: 0.7;
 }
 
 .margin-removed {
