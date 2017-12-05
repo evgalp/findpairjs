@@ -58,7 +58,7 @@ body.theme-dark {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  transition: 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .card {
@@ -186,6 +186,56 @@ body.theme-dark {
 .select.select--dark {
   border-color: #2cc790;
   color: #2cc790;
+}
+
+.input {
+  background: transparent;
+  box-shadow: 0;
+  outline: 0;
+  border: 1px solid #27a8d9;
+  color: #27a8d9;
+  border-radius: 3px;
+  padding: 10px 5px;
+  font-size: 20px;
+  width: 100%;
+  margin: 2px;
+}
+
+.input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.input.input--dark {
+  border-color: #2cc790;
+  color: #2cc790;
+}
+
+.best-table {
+  margin: 0 auto;
+}
+
+.best-table tr {
+  border: 1px solid #27a8d9;
+}
+
+.best-table tr th {
+  border: 1px solid #27a8d9;
+  border-left: 0;
+  border-right: 0;
+  margin: 0;
+  padding: 10px 18px;
+}
+
+.best-table tr td {
+  padding: 10px 18px;
+}
+
+.best-table.best-table--dark tr {
+  border-color: #2cc790;
+}
+
+.best-table.best-table--dark tr th {
+  border-color: #2cc790;
 }
 
 .pointer-events-disabled {

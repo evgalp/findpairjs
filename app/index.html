@@ -17,6 +17,9 @@
     <div class="controls container container--painted border-top-radius-removed margin-removed">
       <div class="controls__wrapper">
         <div class="controls__row">
+          <input id="playerNameInput" type="text" placeholder="Player name" class="input">
+        </div>
+        <div class="controls__row">
           <span class="margin-right">Select field size:</span>
           <select name="field-select" id="fieldSelect" class="select">
             <option value="2">2x2</option>
@@ -48,13 +51,19 @@
         <div class="controls__row controls__row--centered">
           <button id="switchThemeBtn" class="controls__button button button--full-width" type="button" name="button">Switch color theme</button>
         </div>
+        <div class="controls__row controls__row--centered">
+          <button id="showResultTableBtn" class="controls__button button button--full-width" type="button" name="button">Show last results</button>
+        </div>
       </div>
     </div>
   </div>
 
+  <table id="bestTable" class="best-table container"></table>
+
   <script src="js/app.js" charset="utf-8"></script>
   <script src="js/cards.js" charset="utf-8"></script>
   <script src="js/stopwatch.js" charset="utf-8"></script>
+  <script src="js/scores.js" charset="utf-8"></script>
 
 </body>
 </html>

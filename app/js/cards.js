@@ -13,8 +13,13 @@ var domVariables = {
     containers: document.querySelectorAll('.container'),
     buttons: document.querySelectorAll('.button'),
     selects: document.querySelectorAll('.select'),
-    body: document.querySelector('body')
-  }
+    inputs: document.querySelectorAll('.input'),
+    body: document.querySelector('body'),
+    table: document.getElementById('bestTable')
+  },
+  bestTable: document.getElementById('bestTable'),
+  playerNameInput: document.getElementById('playerNameInput'),
+  showResultTableBtn: document.getElementById('showResultTableBtn')
 }
 
 var helpers = {
@@ -84,10 +89,12 @@ var gameLogic = {
     callbackFunctions.buffer.removedCardsAmount = 0;
     callbackFunctions.buffer.totalCardsAmount = parseInt(domVariables.fieldSelect.value) * parseInt(domVariables.fieldSelect.value);
     callbackFunctions.buffer.isPaused = false;
+    callbackFunctions.buffer.playerName = '';
   },
 
   newGame: function () {
     gameLogic.resetGame();
+    callbackFunctions.buffer.playerName = playerNameInput.value;
     render.showAllCards();
     setTimeout(function () {
       render.hideAllCards();
@@ -124,6 +131,7 @@ var gameLogic = {
     domVariables.pauseBtn.classList.add('pointer-events-disabled');
     stopwatch.stop();
     render.updateLastGameLogs();
+    bestResults.saveScoresToLocalStorage();
   }
 
 }
@@ -236,6 +244,10 @@ var render = {
       [].map.call(domVariables.themeComponents.selects, function(elem) {
         elem.classList.add('select--dark');
       });
+      [].map.call(domVariables.themeComponents.inputs, function(elem) {
+        elem.classList.add('input--dark');
+      });
+      domVariables.themeComponents.table.classList.add('best-table--dark');
       callbackFunctions.buffer.isLisghtTheme = !callbackFunctions.buffer.isLisghtTheme;
     } else {
       domVariables.themeComponents.body.classList.remove('theme-dark');
@@ -248,6 +260,10 @@ var render = {
       [].map.call(domVariables.themeComponents.selects, function(elem) {
         elem.classList.remove('select--dark');
       });
+      [].map.call(domVariables.themeComponents.inputs, function(elem) {
+        elem.classList.remove('input--dark');
+      });
+      domVariables.themeComponents.table.classList.remove('best-table--dark');
       callbackFunctions.buffer.isLisghtTheme = !callbackFunctions.buffer.isLisghtTheme;
     }
   }
@@ -261,7 +277,8 @@ var callbackFunctions = {
     totalCardsAmount: 0,
     removedCardsAmount: 0,
     isPaused: true,
-    isLisghtTheme: false
+    isLisghtTheme: true,
+    playerName: ''
   },
 
   cardClickCallback: function() {
@@ -269,8 +286,10 @@ var callbackFunctions = {
     event.stopPropagation();
     let card = event.target.parentElement.parentElement.parentElement;
 
+    // if clicked element is not a card - return
     if (!card.classList.contains('card')) {return};
 
+    // if clicked card is the same card as previous card - return
     if (callbackFunctions.buffer.activeCards.length === 1 && callbackFunctions.buffer.activeCards[0].id === card.id) {return};
 
     callbackFunctions.buffer.activeCards.push(card);
@@ -321,6 +340,10 @@ var callbackFunctions = {
 
   switchThemeBtnCallback: function () {
     render.switchColorTheme();
+  },
+
+  showResultTableBtnCallback: function () {
+    renderResultTable.redrawTable();
   }
 }
 
@@ -330,7 +353,8 @@ function attachEvents(){
   domVariables.fieldSelect.addEventListener('change', callbackFunctions.fieldSelectCallback);
   domVariables.startBtn.addEventListener('click', callbackFunctions.startBtnCallback);
   domVariables.pauseBtn.addEventListener('click', callbackFunctions.pauseBtnCallback);
-  domVariables.switchThemeBtn.addEventListener('click', callbackFunctions.switchThemeBtnCallback)
+  domVariables.switchThemeBtn.addEventListener('click', callbackFunctions.switchThemeBtnCallback),
+  domVariables.showResultTableBtn.addEventListener('click', callbackFunctions.showResultTableBtnCallback)
 }
 
 function mainLoop() {
