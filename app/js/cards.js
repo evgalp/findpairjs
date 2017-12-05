@@ -78,23 +78,17 @@ var gameLogic = {
     }
   },
 
-  newGame: function () {
+  resetBuffer: function () {
     callbackFunctions.buffer.activeCards = [];
     callbackFunctions.buffer.attempts = 0;
     callbackFunctions.buffer.removedCardsAmount = 0;
     callbackFunctions.buffer.totalCardsAmount = parseInt(domVariables.fieldSelect.value) * parseInt(domVariables.fieldSelect.value);
     callbackFunctions.buffer.isPaused = false;
+  },
 
-    stopwatch.stop();
-    stopwatch.reset();
-    render.updateStopwatch("00:00:00");
-
-    render.removeAllCards();
-    render.renderField();
+  newGame: function () {
+    gameLogic.resetGame();
     render.showAllCards();
-
-    render.updateAttempts(0);
-
     setTimeout(function () {
       render.hideAllCards();
       domVariables.cardboard.classList.remove('pointer-events-disabled');
@@ -103,14 +97,21 @@ var gameLogic = {
     }, 2000)
   },
 
+  resetGame: function () {
+    gameLogic.resetBuffer();
+    render.resetView();
+    stopwatch.stop();
+    stopwatch.reset();
+  },
+
   pauseGame: function () {
-    if (!callbackFunctions.buffer.isPaused) {
+    if (callbackFunctions.buffer.isPaused === false) {
       callbackFunctions.buffer.isPaused = true;
       domVariables.cardboard.classList.add('pointer-events-disabled');
       domVariables.startBtn.classList.add('pointer-events-disabled');
       stopwatch.stop();
       domVariables.pauseBtn.innerHTML = 'Resume';
-    } else if (callbackFunctions.buffer.isPaused) {
+    } else if (callbackFunctions.buffer.isPaused === true) {
       callbackFunctions.buffer.isPaused = false;
       domVariables.cardboard.classList.remove('pointer-events-disabled');
       domVariables.startBtn.classList.remove('pointer-events-disabled');
@@ -212,6 +213,17 @@ var render = {
     domVariables.matchLog.innerHTML = `Last game was completed in ${domVariables.stopwatchLog.innerHTML} with ${callbackFunctions.buffer.attempts} attempts.`
   },
 
+  resetView: function () {
+    render.updateStopwatch("00:00:00");
+    render.removeAllCards();
+    render.renderField();
+    render.updateAttempts(0);
+    domVariables.cardboard.classList.add('pointer-events-disabled');
+    domVariables.pauseBtn.classList.add('pointer-events-disabled');
+    domVariables.pauseBtn.innerHTML = 'Pause';
+    domVariables.startBtn.classList.remove('pointer-events-disabled');
+  },
+
   switchColorTheme: function () {
     if (callbackFunctions.buffer.isLisghtTheme) {
       domVariables.themeComponents.body.classList.add('theme-dark');
@@ -249,7 +261,7 @@ var callbackFunctions = {
     totalCardsAmount: 0,
     removedCardsAmount: 0,
     isPaused: true,
-    isLisghtTheme: true
+    isLisghtTheme: false
   },
 
   cardClickCallback: function() {
@@ -296,7 +308,7 @@ var callbackFunctions = {
   },
 
   fieldSelectCallback: function () {
-    gameLogic.newGame();
+    gameLogic.resetGame();
   },
 
   startBtnCallback: function () {

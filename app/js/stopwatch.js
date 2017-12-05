@@ -55,14 +55,11 @@ class Stopwatch {
 
     calculate(timestamp) {
         var diff = timestamp - this.time;
-        // Hundredths of a second are 100 ms
         this.times[2] += diff / 10;
-        // Seconds are 100 hundredths of a second
         if (this.times[2] >= 100) {
             this.times[1] += 1;
             this.times[2] -= 100;
         }
-        // Minutes are 60 seconds
         if (this.times[1] >= 60) {
             this.times[0] += 1;
             this.times[1] -= 60;
