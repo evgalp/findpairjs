@@ -84,17 +84,21 @@ var gameLogic = {
     callbackFunctions.buffer.removedCardsAmount = 0;
     callbackFunctions.buffer.totalCardsAmount = parseInt(domVariables.fieldSelect.value) * parseInt(domVariables.fieldSelect.value);
     callbackFunctions.buffer.isPaused = false;
+
+    stopwatch.stop();
+    stopwatch.reset();
+    render.updateStopwatch("00:00:00");
+
     render.removeAllCards();
     render.renderField();
     render.showAllCards();
+
+    render.updateAttempts(0);
+
     setTimeout(function () {
       render.hideAllCards();
       domVariables.cardboard.classList.remove('pointer-events-disabled');
       domVariables.pauseBtn.classList.remove('pointer-events-disabled');
-      render.updateAttempts(0);
-      render.updateStopwatch('00:00:00');
-      stopwatch.stop();
-      stopwatch.restart();
       stopwatch.start();
     }, 2000)
   },
@@ -175,7 +179,6 @@ var render = {
 
   hideGuessedPair: function () {
     for (let i = 0; i < callbackFunctions.buffer.activeCards.length; i++) {
-      // TODO: 'pointer-events-disabled' not working (but class was added)
       callbackFunctions.buffer.activeCards[i].classList.add('pointer-events-disabled');
       callbackFunctions.buffer.activeCards[i].classList.add('card--hidden');
     }
@@ -293,8 +296,7 @@ var callbackFunctions = {
   },
 
   fieldSelectCallback: function () {
-    render.removeAllCards();
-    render.renderField();
+    gameLogic.newGame();
   },
 
   startBtnCallback: function () {
